@@ -4,7 +4,7 @@ on:
   schedule:
     # 매일 오전 9시에 실행되도록 설정
     # UTC 기준이므로, 한국 시간(KST) 오전 9시는 UTC 자정(00:00)입니다.
-    - cron: '2 5 * * *' # 수정된 부분: KST 오전 9시에 맞춰 UTC 00:00로 변경
+    - cron: '14 5 * * *' # 수정된 부분: KST 오전 9시에 맞춰 UTC 00:00로 변경
   workflow_dispatch:
     # GitHub UI에서 수동으로 워크플로우를 실행할 수 있는 버튼 추가
 
@@ -28,7 +28,7 @@ jobs:
       
       - name: Create Google Service Account Key file
         run: |
-          echo '${{ secrets.GCP_SA_KEY }}' > NAVER_CRAWLER_GOOGLESHEET_KEY.json
+          echo '${{ secrets.GCP_SA_KEY }}' > navercafe-crawler-aafd3370cb81.json
       
       - name: Run the Python script
         run: python cafe_crawler.py

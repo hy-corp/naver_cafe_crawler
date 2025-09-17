@@ -219,7 +219,7 @@ scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 
 # 다운로드 받았던 키 값
-json_key_path = "NAVER_CRAWLER_GOOGLESHEET_KEY.json"  
+json_key_path = "navercafe-crawler-aafd3370cb81.json"  
 
 credential = ServiceAccountCredentials.from_json_keyfile_name(json_key_path, scope)
 gc = gspread.authorize(credential)
