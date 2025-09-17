@@ -1,0 +1,7 @@
+requests
+python-dateutil
+beautifulsoup4
+tqdm
+pandas
+oauth2client
+gspread
