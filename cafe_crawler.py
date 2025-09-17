@@ -17,7 +17,7 @@ fixed_day와 cafes_to_scrape(카페id), boards_to_scrape(게시판 이름)을 �
 '''
 
 today = datetime.now() # 오늘 날짜
-fixed_day = today - relativedelta(days=2) # 현재 날짜에서 3개월 전 날짜를 계산
+fixed_day = datetime(2025, 9, 16) # 현재 날짜에서 3개월 전 날짜를 계산
 
 # 크롤링할 카페 이름과 ID
 cafes_to_scrape = {

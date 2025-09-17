@@ -4,7 +4,7 @@ on:
   schedule:
     # 매일 오전 9시에 실행되도록 설정
     # UTC 기준이므로, 한국 시간(KST) 오전 9시는 UTC 자정(00:00)입니다.
-    - cron: '0 0 * * *'
+    - cron: '49 4 * * *'
   workflow_dispatch:
     # GitHub UI에서 수동으로 워크플로우를 실행할 수 있는 버튼 추가
 
