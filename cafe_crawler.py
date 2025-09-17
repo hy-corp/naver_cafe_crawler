@@ -178,7 +178,7 @@ for cafe_name, cafe_id in cafes_to_scrape.items():
                 
 
                 posting_time = response.json()['result']['article']['writeDate']/1000 # 밀리초를 초 단위로 변환
-                posting_date = post_day = datetime.fromtimestamp(post_time).strftime("%Y-%m-%d")
+                posting_date = datetime.fromtimestamp(posting_time).strftime("%Y-%m-%d")
                 
 
                 # --- 데이터 저장 ---
@@ -211,12 +211,6 @@ for cafe_name, cafe_id in cafes_to_scrape.items():
 
 
 cafe_data = pd.DataFrame(final_list_of_dicts)
-cafe_data.to_csv('cafe_data.csv',index=False)
-
-# 최종 결과 확인
-print("\n--- 크롤링 최종 결과 ---")
-print(f"총 {len(final_list_of_dicts)}개의 게시글 정보를 수집했습니다.")
-print(cafe_data.head())
 
 # ----------------------------------- 구글 시트 업로드 -----------------------------------------
 
@@ -238,14 +232,11 @@ doc = gc.open_by_url(spreadsheet_url)
 # 개인에 따라 수정 필요 - 시트 선택
 sheet = doc.worksheet("시트1")
 
-# cafe_data.csv 파일을 pandas 데이터프레임으로 읽어옵니다.
-df = pd.read_csv('cafe_data.csv')
-
 # 기존 시트의 내용을 모두 삭제합니다.
 sheet.clear()
 
 # 데이터프레임의 헤더(열 이름)와 값을 구글 시트에 업로드합니다.
-sheet.update([df.columns.values.tolist()] + df.values.tolist())
+sheet.update([cafe_data.columns.values.tolist()] + cafe_data.values.tolist())
 
 print('-'*100)
 print("`cafe_data.csv` 파일이 구글 시트에 성공적으로 업로드되었습니다.")
