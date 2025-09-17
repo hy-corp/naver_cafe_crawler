@@ -213,7 +213,7 @@ for cafe_name, cafe_id in cafes_to_scrape.items():
 
 
 cafe_data = pd.DataFrame(final_list_of_dicts)
-
+cafe_data = cafe_data.sort_values(by='date', ascending=True)
 # ----------------------------------- 구글 시트 업로드 -----------------------------------------
 
 # 인증 및 스프레드시트 설정
