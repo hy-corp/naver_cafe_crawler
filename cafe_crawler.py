@@ -183,11 +183,13 @@ for cafe_name, cafe_id in cafes_to_scrape.items():
 
                 # --- 데이터 저장 ---
                 # 게시글 하나의 정보를 딕셔너리에 담아 리스트에 추가합니다.
+                comments_str = "\n".join(comments_list)
+
                 article_info = {
                     'date' : posting_date,
                     'title': title,
                     'content': article_content,
-                    'comment': comments_list
+                    'comment': comments_str # 리스트 대신 문자열을 저장
                 }
                 final_list_of_dicts.append(article_info)
 
@@ -239,4 +241,4 @@ sheet.clear()
 sheet.update([cafe_data.columns.values.tolist()] + cafe_data.values.tolist())
 
 print('-'*100)
-print("`cafe_data.csv` 파일이 구글 시트에 성공적으로 업로드되었습니다.")
+print("파일이 구글 시트에 성공적으로 업로드되었습니다.")
