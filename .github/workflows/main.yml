@@ -3,7 +3,7 @@ name: Naver Cafe Crawler
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 6 * * *'  # 예: KST 오후 3:30 == UTC 06:30
+    - cron: '0 0 * * *'  
 
 jobs:
   crawl:
@@ -28,6 +28,10 @@ jobs:
           pip install -r requirements.txt
           # 혹시 requirements에 없다면:
           pip install webdriver-manager selenium python-dotenv aiohttp gspread oauth2client beautifulsoup4 python-dateutil tqdm
+
+      - name: Create Google Service Account Key file
+        run: |
+          echo '${{ secrets.GCP_SA_KEY }}' > navercafe-crawler-aafd3370cb81.json
 
       - name: Set env (NAVER creds)
         env:
