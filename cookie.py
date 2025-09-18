@@ -2,6 +2,7 @@ import os
 import sys
 import time
 from typing import Optional
+import tempfile
 
 import pyperclip
 from dotenv import load_dotenv
@@ -12,6 +13,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+
 
 LOGIN_URL = "https://nid.naver.com/nidlogin.login"
 
@@ -61,6 +63,10 @@ def get_naver_cookies(headless: bool = False) -> Optional[str]:
         if headless:
             options.add_argument("--headless=new")
             options.add_argument("--window-size=1280,960")
+        
+        user_data_dir = tempfile.mkdtemp()
+        options.add_argument(f"--user-data-dir={user_data_dir}")
+
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
