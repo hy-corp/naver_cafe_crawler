@@ -71,7 +71,12 @@ def get_naver_cookies(headless: bool = False) -> Optional[str]:
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
 
-        service = Service(ChromeDriverManager().install())
+        if os.getenv("GITHUB_ACTIONS") == "true":
+            # CI 환경
+            service = Service("/usr/local/bin/chromedriver")
+        else:
+            # 로컬 환경
+            service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)
         wait = WebDriverWait(driver, 15)
 
