@@ -60,8 +60,9 @@ def get_naver_cookies(headless: bool = False) -> Optional[str]:
     try:
         options = webdriver.ChromeOptions()
 
-        options.add_argument('--headless')
-        options.add_argument("--window-size=1280,960")
+        if headless:
+            options.add_argument("--headless=new")
+            options.add_argument("--window-size=1280,960")
         
 
         options.add_argument("--disable-gpu")
