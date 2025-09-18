@@ -26,8 +26,6 @@ warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
 
 
-
-
 '''
 fixed_day와 cafes_to_scrape(카페id), boards_to_scrape(게시판 이름)을 지정하면 해당 정보 크롤링
 '''

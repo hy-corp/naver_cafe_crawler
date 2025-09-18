@@ -61,7 +61,7 @@ def get_naver_cookies(headless: bool = False) -> Optional[str]:
     try:
         options = webdriver.ChromeOptions()
         if headless:
-            options.add_argument("--headless=new")
+            options.add_argument('--headless')
             options.add_argument("--window-size=1280,960")
         
         user_data_dir = tempfile.mkdtemp()
