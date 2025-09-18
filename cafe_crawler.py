@@ -92,6 +92,25 @@ headers = {
 # =========================
 # (추가) 비동기 헬퍼들
 # =========================
+def run_async(coro):
+    """
+    이미 실행 중인 이벤트 루프가 있으면 그 위에서 실행하고,
+    없으면 asyncio.run으로 실행한다.
+    (Jupyter 등에서 안전하게 동작)
+    """
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+
+    if loop and loop.is_running():
+        # 노트북/스트림릿 등: 재진입 허용
+        import nest_asyncio
+        nest_asyncio.apply()
+        return loop.run_until_complete(coro)
+    else:
+        return asyncio.run(coro)
+
 async def fetch_article_json(session: aiohttp.ClientSession, url: str) -> Tuple[Optional[Dict[str, Any]], Optional[str], Optional[str]]:
     """
     상세 실패 오류를 써주는 코드
