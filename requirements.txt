@@ -5,3 +5,9 @@ tqdm
 pandas
 oauth2client
 gspread
+selenium 
+webdriver-manager 
+python-dotenv
+aiohttp
+nest_asyncio
+pyperclip

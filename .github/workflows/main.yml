@@ -29,6 +29,11 @@ jobs:
       - name: Create Google Service Account Key file
         run: |
           echo '${{ secrets.GCP_SA_KEY }}' > navercafe-crawler-aafd3370cb81.json
+
+      - name: Create .env file
+        run: |
+          echo "NAVER_ID=${{ secrets.NAVER_ID }}" >> .env
+          echo "NAVER_PW=${{ secrets.NAVER_PW }}" >> .env
       
       - name: Run the Python script
         run: python cafe_crawler.py
