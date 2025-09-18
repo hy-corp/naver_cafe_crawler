@@ -21,13 +21,11 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Chrome
-        run: |
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo mkdir -p /etc/apt/sources.list.d
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-          sudo apt-get update
-          sudo apt-get -y install google-chrome-stable
+      - name: Install Stable Chrome and ChromeDriver
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: '140.0.7339.185'
+          
       - name: Install ChromeDriver
         run: |
           # Using specific ChromeDriver version for Chrome I used 132
