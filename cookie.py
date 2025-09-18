@@ -72,12 +72,10 @@ def get_naver_cookies(headless: bool = False) -> Optional[str]:
         options.add_argument('--remote-debugging-port=9222')
         options.add_argument('--aggressive-cache-discard')
 
-        if os.getenv("GITHUB_ACTIONS") == "true":
-            # CI 환경
-            service = Service("/usr/local/bin/chromedriver")
-        else:
-            # 로컬 환경
-            service = Service(ChromeDriverManager().install())
+        service = Service("/usr/local/bin/chromedriver")
+        # else:
+        #     # 로컬 환경
+        #     service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)
         wait = WebDriverWait(driver, 15)
 
