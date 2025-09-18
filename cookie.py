@@ -72,6 +72,7 @@ def get_naver_cookies(headless: bool = False) -> Optional[str]:
         options.add_argument("--disable-dev-shm-usage")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
+        options.add_argument("--remote-debugging-port=0")
 
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)
@@ -138,7 +139,7 @@ def get_naver_cookies(headless: bool = False) -> Optional[str]:
                 pass
 
 if __name__ == "__main__":
-    cookie = get_naver_cookies(headless=False)  # 캡차/2단계 때문에 창 표시 권장
+    cookie = get_naver_cookies(headless=True)  # 캡차/2단계 때문에 창 표시 권장
     if cookie:
         print("\n--- 추출된 쿠키 (이 값을 헤더에 사용하세요) ---")
         print(cookie)
