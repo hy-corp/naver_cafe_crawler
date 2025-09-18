@@ -1,4 +1,5 @@
 import re
+import os
 import pandas as pd
 import json
 
@@ -33,7 +34,7 @@ fixed_day와 cafes_to_scrape(카페id), boards_to_scrape(게시판 이름)을 �
 '''
 # 수집할 날짜 지정
 today = datetime.now()
-fixed_day = datetime(2025, 9, 16)
+fixed_day = datetime(2025, 9, 18)
 
 # 크롤링할 카페 이름과 ID - "카페이름": 12345678
 cafes_to_scrape = {
@@ -75,19 +76,26 @@ sheet_extract_data = raw_sheet.get_all_records()
 existing_posts = {(row.get('카페'), str(row.get('게시글번호'))) for row in sheet_extract_data}
 print("구글시트 연결 완료")
 
+
+is_ci = os.getenv("GITHUB_ACTIONS") == "true"
+my_cookie = get_naver_cookies(headless=is_ci)
+
 # 카페의 게시판 이름을 불러오기 위한 헤더
-my_cookie = get_naver_cookies()
 headers = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                   "AppleWebKit/537.36 (KHTML, like Gecko) "
                   "Chrome/140.0.0.0 Safari/537.36",
-    "cookie": my_cookie,
     "accept": "*/*",
     "accept-language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
     "origin": "https://cafe.naver.com",
-    "referer": "https://cafe.naver.com/",
+    "referer": "https://cafe.naver.com/",   
     "x-cafe-product": "pc"
 }
+if my_cookie:  # 문자열일 때만 cookie 헤더 추가 (핵심!)
+    headers["cookie"] = my_cookie
+else:
+    print("경고: 로그인 쿠키 없음(비로그인 수집으로 진행). 일부 글은 접근 제한될 수 있음.")
+
 
 # =========================
 # (추가) 비동기 헬퍼들
