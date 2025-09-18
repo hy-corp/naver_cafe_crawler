@@ -59,17 +59,18 @@ def get_naver_cookies(headless: bool = False) -> Optional[str]:
     driver = None
     try:
         options = webdriver.ChromeOptions()
-
-        if headless:
-            options.add_argument("--headless=new")
-            options.add_argument("--window-size=1280,960")
-        
-
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option("useAutomationExtension", False)
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--start-maximized')
+        # Memory optimization
+        options.add_argument('--disk-cache-size=1')
+        options.add_argument('--media-cache-size=1')
+        options.add_argument('--incognito')
+        options.add_argument('--remote-debugging-port=9222')
+        options.add_argument('--aggressive-cache-discard')
 
         if os.getenv("GITHUB_ACTIONS") == "true":
             # CI 환경
