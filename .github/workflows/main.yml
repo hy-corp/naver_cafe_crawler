@@ -35,13 +35,31 @@ jobs:
       # ---------------------------
       # ChromeDriver 설치
       # ---------------------------
-      - name: Setup ChromeDriver
+      - name: Setup ChromeDriver (match Chrome)
         run: |
-          sudo apt-get install -y unzip
-          wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chromedriver-linux64.zip
-          unzip chromedriver-linux64.zip
-          sudo mv ./chromedriver-linux64/chromedriver /usr/local/bin/
+          set -eux
+          sudo apt-get update -y
+          sudo apt-get install -y jq unzip curl
+
+          # 1) 설치된 Chrome 버전 확인 (예: 140.0.7339.185)
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
+          MAJOR=$(echo "$CHROME_VERSION" | cut -d. -f1)
+
+          # 2) 해당 메이저 버전의 '안정 릴리스' 정확 버전 조회
+          META=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${MAJOR}.json)
+          VERSION=$(echo "$META" | jq -r '.version')
+
+          # 3) 위 버전에 맞는 linux64 chromedriver 다운로드 URL 얻기
+          URL=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json \
+            | jq -r --arg v "$VERSION" '.versions[] | select(.version==$v) 
+              | .downloads.chromedriver[] | select(.platform=="linux64") | .url')
+
+          # 4) 설치
+          curl -L "$URL" -o chromedriver-linux64.zip
+          unzip -o chromedriver-linux64.zip
+          sudo mv -f chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
+          chromedriver --version
 
       # ---------------------------
       # Xvfb (가상 디스플레이) 설치
